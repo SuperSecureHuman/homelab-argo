@@ -1,5 +1,5 @@
 ollama:
-  enabled: true
+  enabled: false
 
 pipelines:
   # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
