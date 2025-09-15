@@ -8,6 +8,7 @@ spec:
   sources:
     - chart: kube-prometheus-stack
       repoURL: oci://ghcr.io/prometheus-community/charts
+      targetRevision: 77.6.2
       helm:
         valueFiles:
           - values/prom-stack.yaml
