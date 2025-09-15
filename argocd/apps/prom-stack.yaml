@@ -6,12 +6,15 @@ metadata:
 spec:
   project: default
   sources:
-    - chart: kube-prometheus-stack
-      repoURL: https://prometheus-community.github.io/helm-charts
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
       targetRevision: 77.6.2
       helm:
         valueFiles:
-          - values/prom-stack.yaml
+          - $values/values/prom-stack.yaml
+    - repoURL: "https://github.com/SuperSecureHuman/homelab-argo.git"
+      targetRevision: main
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
