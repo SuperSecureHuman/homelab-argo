@@ -1,0 +1,4 @@
+apiVersion: v2
+name: prom-stack-proxy
+version: 0.1.0
+description: Proxy chart for Prometheus Stack

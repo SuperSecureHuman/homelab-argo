@@ -1,0 +1,4 @@
+apiVersion: v2
+name: sealed-secrets-proxy
+version: 0.1.0
+description: Proxy chart for Sealed Secrets

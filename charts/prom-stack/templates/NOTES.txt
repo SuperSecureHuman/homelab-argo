@@ -1,0 +1,1 @@
+This is a proxy chart for Prometheus Stack. Custom values go in values.yaml.
