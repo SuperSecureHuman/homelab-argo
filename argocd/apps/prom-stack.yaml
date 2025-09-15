@@ -11,7 +11,7 @@ spec:
       targetRevision: 77.6.2
       helm:
         valueFiles:
-          - $values/v:wqalues/prom-stack.yaml
+          - $values/values/prom-stack.yaml
     - repoURL: "https://github.com/SuperSecureHuman/homelab-argo.git"
       targetRevision: main
       ref: values
