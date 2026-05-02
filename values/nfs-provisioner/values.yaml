@@ -1,3 +1,5 @@
+replicaCount: 3
+
 nfs:
   server: 192.168.0.180
   path: /mnt/ssd_mirror/k8s_volume
