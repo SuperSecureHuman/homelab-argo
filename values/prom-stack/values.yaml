@@ -1,43 +1,33 @@
 prometheus:
   prometheusSpec:
+    replicas: 2
     scrapeInterval: 60s
     evaluationInterval: 60s
     storageSpec:
       volumeClaimTemplate:
         spec:
+          storageClassName: nfs-nas
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 10Gi
     retention: 14d
-    retentionSize: 7GB
-    additionalScrapeConfigs:
-# alertmanager:
-#   alertmanagerSpec:
-#     nodeSelector:
-#       nodegroup: on-demand
-#     tolerations:
-#       - key: "workload"
-#         operator: "Equal"
-#         value: "critical"
-#         effect: "NoSchedule"
+    retentionSize: 7GB # need to check if I am hitting this limit
 
 grafana:
   enabled: true
+  replicas: 2
   ingress:
     enabled: false
   persistence:
     enabled: true
     type: sts
+    storageClassName: nfs-nas
     accessModes:
       - ReadWriteOnce
     size: 1Gi
     finalizers:
       - kubernetes.io/pvc-protection
-  # nodeSelector:
-  #   nodegroup: on-demand
-  # tolerations:
-  #   - key: "workload"
-  #     operator: "Equal"
-  #     value: "critical"
-  #     effect: "NoSchedule"
+
+# alertmanager:
+#   alertmanagerSpec: {}
