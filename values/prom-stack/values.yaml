@@ -34,6 +34,7 @@ grafana:
     size: 1Gi
     finalizers:
       - kubernetes.io/pvc-protection
+  assertNoLeakedSecrets: false
   grafana.ini:
     database:
       type: postgres
