@@ -11,3 +11,12 @@ prometheus:
               - 192.168.0.201:9617
               - 192.168.0.203:9617
               - 192.168.0.204:9617
+      - job_name: nas-postgres
+        static_configs:
+          - targets: [ "192.168.0.180:9187" ]
+      - job_name: nas-mariadb
+        static_configs:
+          - targets: [ "192.168.0.180:9104" ]
+      - job_name: nas-redis
+        static_configs:
+          - targets: [ "192.168.0.180:9121" ]

@@ -17,6 +17,8 @@ prometheus:
 grafana:
   enabled: true
   replicas: 1
+  adminUser: admin
+  adminPassword: "Homelab@123"
   ingress:
     enabled: false
   service:
@@ -32,6 +34,14 @@ grafana:
     size: 1Gi
     finalizers:
       - kubernetes.io/pvc-protection
+  grafana.ini:
+    database:
+      type: postgres
+      host: nas-postgres.nas-services.svc.cluster.local:5432
+      name: grafana
+      user: grafana
+      password: grafana
+      ssl_mode: disable
 
 # alertmanager:
 #   alertmanagerSpec: {}
