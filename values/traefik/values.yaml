@@ -1,0 +1,25 @@
+deployment:
+  kind: DaemonSet
+
+service:
+  type: NodePort
+  spec:
+    externalTrafficPolicy: Local
+
+ports:
+  traefik:
+    hostPort: 8080   # dashboard accessible at http://<any-node-ip>:8080/dashboard/
+  web:
+    nodePort: 30080
+    forwardedHeaders:
+      trustedIPs:
+        - "192.168.0.180/32"   # NPM NAS IP
+  websecure:
+    nodePort: 30443
+    forwardedHeaders:
+      trustedIPs:
+        - "192.168.0.180/32"
+
+providers:
+  kubernetesCRD:
+    allowCrossNamespace: true
