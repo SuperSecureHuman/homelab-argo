@@ -6,14 +6,24 @@ service:
   spec:
     externalTrafficPolicy: Local
 
+api:
+  insecure: true # serves dashboard on the traefik entrypoint (port 8080) without auth
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    matchRule: Host(`dashboard.localhost`)
+    entryPoints:
+      - web
+
 ports:
   traefik:
-    hostPort: 8080   # dashboard accessible at http://<any-node-ip>:8080/dashboard/
+    hostPort: 8080 # dashboard at http://<any-node-ip>:8080/dashboard/ from LAN
   web:
     nodePort: 30080
     forwardedHeaders:
       trustedIPs:
-        - "192.168.0.180/32"   # NPM NAS IP
+        - "192.168.0.180/32" # NPM NAS IP
   websecure:
     nodePort: 30443
     forwardedHeaders:
@@ -23,3 +33,11 @@ ports:
 providers:
   kubernetesCRD:
     allowCrossNamespace: true
+  kubernetesGateway:
+    enabled: true
+
+gateway:
+  listeners:
+    web:
+      namespacePolicy:
+        from: All
