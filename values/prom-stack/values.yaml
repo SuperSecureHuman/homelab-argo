@@ -1,5 +1,6 @@
 prometheus:
   prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
     replicas: 2
     scrapeInterval: 60s
     evaluationInterval: 60s
