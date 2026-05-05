@@ -30,6 +30,13 @@ ports:
       trustedIPs:
         - "192.168.0.180/32"
 
+metrics:
+  prometheus:
+    service:
+      enabled: true
+    serviceMonitor:
+      enabled: true
+
 providers:
   kubernetesCRD:
     allowCrossNamespace: true
