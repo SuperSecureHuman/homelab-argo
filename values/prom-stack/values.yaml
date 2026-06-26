@@ -45,5 +45,5 @@ grafana:
       password: $__env{password}
       ssl_mode: disable
 
-# alertmanager:
-#   alertmanagerSpec: {}
+alertmanager:
+  enabled: false
