@@ -25,20 +25,6 @@ spec:
     server: https://kubernetes.default.svc
     namespace: monitoring
   ignoreDifferences:
-    # Helm always renders this secret; admin-password is manually managed
-    - group: ""
-      kind: Secret
-      name: prom-stack-grafana
-      namespace: monitoring
-      jsonPointers:
-        - /data/admin-password
-    # Cascades from secret drift above
-    - group: apps
-      kind: StatefulSet
-      name: prom-stack-grafana
-      namespace: monitoring
-      jsonPointers:
-        - /spec/template/metadata/annotations/checksum~1secret
     # ESO owns these fields at runtime
     - group: external-secrets.io
       kind: ExternalSecret

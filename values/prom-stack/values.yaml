@@ -18,7 +18,10 @@ prometheus:
 grafana:
   enabled: true
   replicas: 1
-  adminUser: admin
+  admin:
+    existingSecret: grafana-db-credentials
+    userKey: admin-user
+    passwordKey: admin-password
   ingress:
     enabled: false
   service:
