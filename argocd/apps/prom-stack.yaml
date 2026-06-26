@@ -45,6 +45,13 @@ spec:
       namespace: monitoring
       managedFieldsManagers:
         - external-secrets
+    # status.terminatingReplicas not in ArgoCD's embedded schema (k3s v1.36 / ArgoCD v3.3.9 mismatch)
+    - group: apps
+      kind: Deployment
+      name: prom-stack-kube-state-metrics
+      namespace: monitoring
+      jsonPointers:
+        - /status
   syncPolicy:
     automated:
       prune: true
