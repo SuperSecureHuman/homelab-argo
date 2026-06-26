@@ -52,6 +52,12 @@ spec:
       namespace: monitoring
       jsonPointers:
         - /status
+    - group: apps
+      kind: Deployment
+      name: prom-stack-kube-prometheus-operator
+      namespace: monitoring
+      jsonPointers:
+        - /status
   syncPolicy:
     automated:
       prune: true
