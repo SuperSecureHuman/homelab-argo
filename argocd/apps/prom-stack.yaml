@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: prom-stack
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/compare-options: ServerSideDiff=true
 spec:
   project: default
   sources:
@@ -39,25 +37,16 @@ spec:
       namespace: monitoring
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1secret
-    # ESO owns these fields at runtime — use managedFieldsManagers instead of hardcoded paths
+    # ESO runtime-injected fields — explicit paths until ArgoCD upgraded for ServerSideDiff+managedFieldsManagers
     - group: external-secrets.io
       kind: ExternalSecret
       namespace: monitoring
-      managedFieldsManagers:
-        - external-secrets
-    # status.terminatingReplicas not in ArgoCD's embedded schema (k3s v1.36 / ArgoCD v3.3.9 mismatch)
-    - group: apps
-      kind: Deployment
-      name: prom-stack-kube-state-metrics
-      namespace: monitoring
       jsonPointers:
-        - /status
-    - group: apps
-      kind: Deployment
-      name: prom-stack-kube-prometheus-operator
-      namespace: monitoring
-      jsonPointers:
-        - /status
+        - /metadata/finalizers
+        - /spec/data/0/remoteRef/conversionStrategy
+        - /spec/data/0/remoteRef/decodingStrategy
+        - /spec/data/0/remoteRef/metadataPolicy
+        - /spec/data/0/remoteRef/nullBytePolicy
   syncPolicy:
     automated:
       prune: true
@@ -66,4 +55,3 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
-
