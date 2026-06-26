@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: prom-stack
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
 spec:
   project: default
   sources:
@@ -23,28 +25,26 @@ spec:
     server: https://kubernetes.default.svc
     namespace: monitoring
   ignoreDifferences:
+    # Helm always renders this secret; admin-password is manually managed
     - group: ""
       kind: Secret
       name: prom-stack-grafana
       namespace: monitoring
       jsonPointers:
         - /data/admin-password
+    # Cascades from secret drift above
     - group: apps
       kind: StatefulSet
       name: prom-stack-grafana
       namespace: monitoring
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1secret
+    # ESO owns these fields at runtime — use managedFieldsManagers instead of hardcoded paths
     - group: external-secrets.io
       kind: ExternalSecret
-      name: grafana-db-credentials
       namespace: monitoring
-      jqPathExpressions:
-        - .metadata.finalizers
-        - .spec.data[].remoteRef.conversionStrategy
-        - .spec.data[].remoteRef.decodingStrategy
-        - .spec.data[].remoteRef.metadataPolicy
-        - .spec.data[].remoteRef.nullBytePolicy
+      managedFieldsManagers:
+        - external-secrets
   syncPolicy:
     automated:
       prune: true
@@ -52,3 +52,5 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
+
