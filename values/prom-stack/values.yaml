@@ -19,7 +19,6 @@ grafana:
   enabled: true
   replicas: 1
   adminUser: admin
-  adminPassword: "Homelab@123"
   ingress:
     enabled: false
   service:
@@ -36,13 +35,14 @@ grafana:
     finalizers:
       - kubernetes.io/pvc-protection
   assertNoLeakedSecrets: false
+  envFromSecret: grafana-db-credentials
   grafana.ini:
     database:
       type: postgres
       host: nas-postgres.nas-services.svc.cluster.local:5432
       name: grafana
       user: grafana
-      password: grafana
+      password: $__env{password}
       ssl_mode: disable
 
 # alertmanager:
