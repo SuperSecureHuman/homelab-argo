@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: prom-stack
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
 spec:
   project: default
   sources:
@@ -37,16 +39,12 @@ spec:
       namespace: monitoring
       jsonPointers:
         - /spec/template/metadata/annotations/checksum~1secret
-    # ESO runtime-injected fields — explicit paths until ArgoCD upgraded for ServerSideDiff+managedFieldsManagers
+    # ESO owns these fields at runtime
     - group: external-secrets.io
       kind: ExternalSecret
       namespace: monitoring
-      jsonPointers:
-        - /metadata/finalizers
-        - /spec/data/0/remoteRef/conversionStrategy
-        - /spec/data/0/remoteRef/decodingStrategy
-        - /spec/data/0/remoteRef/metadataPolicy
-        - /spec/data/0/remoteRef/nullBytePolicy
+      managedFieldsManagers:
+        - external-secrets
   syncPolicy:
     automated:
       prune: true
@@ -55,3 +53,4 @@ spec:
       - CreateNamespace=true
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
+
